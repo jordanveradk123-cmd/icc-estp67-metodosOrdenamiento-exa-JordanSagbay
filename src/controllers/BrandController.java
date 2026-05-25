@@ -4,41 +4,58 @@ import models.Brand;
 
 public class BrandController {
     public Brand[] sortSelectionAsc(Brand[] brands) {
+        // Implementación del ordenamiento por selección ascendente
         int n = brands.length;
         for (int i = 0; i < n - 1; i++) {
-            int indicemin = i;
+            int minIndex = i;
             for (int j = i + 1; j < n; j++) {
-                if (brands[indicemin].getTotalValidYears() > brands[j].getTotalValidYears()) {
-                    Brand aux = brands[j];
-                    brands[j] = brands[indicemin];
-                    brands[indicemin] = aux;
+                if (brands[j].getTotalValidYears() < brands[minIndex].getTotalValidYears()) {
+                    minIndex = j;
                 }
             }
-
+            // Intercambiar
+            Brand temp = brands[minIndex];
+            brands[minIndex] = brands[i];
+            brands[i] = temp;
         }
         return brands;
     }
+    public Brand binarySearchByValidYears(
+    Brand[] brands, 
+    int validYears,
+    boolean isAscending
+    ) {
+        // Implementación de la búsqueda binaria por años de validez
+        int left = 0;
+        int right = brands.length - 1;
 
-    public Brand binarySearchByValidYears(Brand[] brands, int validYears, boolean isAscending) {
-        int inicio = 0;
-        int fin = brands.length - 1;
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
 
-        while (inicio <= fin) {
-            int medio = inicio + (fin - inicio) / 2;
-            int anosMedio = brands[medio].getTotalValidYears();
-
-            if (anosMedio == validYears) {
-                return brands[medio];
+            if (brands[mid].getTotalValidYears() == validYears) {
+                return brands[mid];
             }
-            if (anosMedio > validYears) {
-                fin = anosMedio - 1;
+
+            if (isAscending) {
+                if (brands[mid].getTotalValidYears() < validYears) {
+                    left = mid + 1;
+                } else {
+                    right = mid - 1;
+                }
             } else {
-                inicio = anosMedio + 1;
+                if (brands[mid].getTotalValidYears() > validYears) {
+                    left = mid + 1;
+                } else {
+                    right = mid - 1;
+                }
             }
-
         }
-        return null;
-
-    }
+        return null; // No encontrado
+}
 
 }
+
+
+   
+
+  

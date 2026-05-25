@@ -5,25 +5,41 @@ import models.CarYear;
 
 public class App {
         public static void main(String[] args) throws Exception {
-                System.out.println("Examen interciclo de Estructuras de Datos");
-                System.out.println("====Configurar studente.env====");
-                Brand [] brands = createBrands();
-                BrandController brandController = new BrandController();
-                brandController.sortSelectionAsc(brands);
-                Brand foundBrand = brandController.binarySearchByValidYears(brands, 0, false);
-                if (foundBrand != null) {
-                        System.out.println("Marca encontrada: " + foundBrand.getBrandName());
-                } else {
-                        System.out.println("Marca no encontrada.");
+                System.out.println("Examen interciclo");
+                BrandController controller = new BrandController();
+                Brand[] brands = createBrands();
+                System.out.println("original");
+                for(int i =0 ; i<brands.length;i++){
+                        System.out.println(brands[i].getBrandName()+ "Anios Validos"+brands[i].getTotalValidYears());
                 }
+                System.out.println("ordenado de forma acendente por insercion");
+                controller.sortSelectionAsc(brands);
+                 for(int j =0 ; j<brands.length;j++){
+                        System.out.println(brands[j].getBrandName()+ "Anios Validos"+brands[j].getTotalValidYears());
+                }
+                System.out.println("Busqueda binaria por 7 anios validos en orden acendente");
+                Brand criterio1 = controller.binarySearchByValidYears(brands, 7, true);
+                if (criterio1 != null) {
+                        System.out.println("Encontrada: Marca: " + criterio1.getBrandName() + ", Total de anios validos: "
+                                                        + criterio1.getTotalValidYears());
+                }else {
+                        System.out.println("No encontrada");
+                }
+                System.out.println("\nBuscar marca con 5 ños validos que se ordenaron :");
+                Brand criterio2 = controller.binarySearchByValidYears(brands, 5, true);
+                if (criterio2 != null) {
+                        System.out.println(
+                                        "Encontrada: Marca: " + criterio2.getBrandName() + ", Total de anios validos: "
+                                                        + criterio2.getTotalValidYears());
+                } else {
+                        System.out.println("No encontrada");
+                }
+
+                
 
         }
 
-        /**
-         * Crea un arreglo de marcas de ejemplo para pruebas
-         * 
-         * @return Arreglo de marcas con modelos y años
-         */
+        
         public static Brand[] createBrands() {
                 // ===== HONDA =====
                 CarYear[] civicYears = {
